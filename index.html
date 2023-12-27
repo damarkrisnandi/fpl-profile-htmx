@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Details per Gameweek</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="css/style.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.css" rel="stylesheet" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+    <script src="https://unpkg.com/mustache@latest"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/client-side-templates.js"></script>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js" integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  </head>
+  <body>
+    <header class="sticky top-0">
+      <a
+        href="/"
+        class="px-4 py-4 flex justify-start items-center text-fuchsia-600"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 16 16"
+          fill="currentColor"
+          class="w-4 h-4 mr-2"
+        >
+          <path
+            d="M8.543 2.232a.75.75 0 0 0-1.085 0l-5.25 5.5A.75.75 0 0 0 2.75 9H4v4a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 1 1 2 0v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V9h1.25a.75.75 0 0 0 .543-1.268l-5.25-5.5Z"
+          />
+        </svg>
+        Home</a
+      >
+    </header>
+
+    <main
+      class="mt-10"
+      hx-on=" htmx:configRequest: event.detail.headers=''; event.detail.headers['Content-Type']='application/x-www-form-urlencoded; charset=UTF-8'"
+    >
+      <div class="mt-10 flex justify-center items-center">
+        <div hx-ext="client-side-templates">
+          <!-- <p id="content">Start</p> -->
+          <div
+            class="relative overflow-x-auto mt-2"
+            hx-get="https://fpl-fetch.netlify.app/api/manager/471950"
+            hx-trigger="load"
+            hx-swap="outerHTML"
+            mustache-array-template="cardtemplate"
+            hx-target="#cardtemplate"
+          >
+            <template id="cardtemplate">
+              {{#data}}
+              <div class="w-full max-w-sm bg-gray-100 border border-gray-200 rounded-lg dark:bg-gray-800 dark:border-gray-700 py-8 px-8 shadow-3xl">
+              
+              <div class="flex flex-col items-center pb-10">
+                <img
+                  class="w-24 h-24 mb-3 rounded-full shadow-lg"
+                  src="https://avatars.githubusercontent.com/u/26299836?v=4"
+                  alt="Bonnie image"
+                />
+                <h5
+                  class="mb-1 text-xl font-medium text-gray-900 dark:text-white"
+                >
+                    {{ name }} | {{ summary_overall_points }}pts 
+                </h5>
+                <span class="text-sm text-gray-500 dark:text-gray-400 flex justify-center items-center"
+                  >{{ player_first_name }} {{ player_last_name }}
+                    <img src="https://fantasy.premierleague.com/img/flags/{{player_region_iso_code_short}}.gif" alt="" class="h-3 ml-2">
+                  </span
+                >
+                <div class="flex mt-4 md:mt-6">
+                  <a
+                    href="/history.html"
+                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-fuchsia-700 rounded-lg hover:bg-fuchsia-800 focus:ring-4 focus:outline-none focus:ring-fuchsia-300 dark:bg-fuchsia-600 dark:hover:bg-fuchsia-700 dark:focus:ring-fuchsia-800">
+                      History
+                    </a>
+                  <a
+                    href="#"
+                    class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-800 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700 ms-3">
+                      Current Pick
+                    </a>
+                </div>
+              </div>
+              {{/data}}
+            </template>
+            
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <footer></footer>
+    <script>
+      const dropdownClicked = () => {
+        console.log('klikkkk')
+      }
+      document.body.addEventListener("htmx:load", function (evt) {
+        // event after htmx load
+      });
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
+  </body>
+</html>
