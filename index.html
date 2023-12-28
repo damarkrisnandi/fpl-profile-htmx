@@ -27,6 +27,13 @@
 
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.min.js" integrity="sha512-L0Shl7nXXzIlBSUUPpxrokqq4ojqgZFQczTYlGjzONGTDAcLremjwaWv5A+EDLnxhQzY5xUZPWLOLqYRkY0Cbw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script>
+      // require("dotenv").config();
+      // console.log(process.env);
+      sessionStorage.setItem("REPO", "fpl-profile-htmx");
+      sessionStorage.setItem("NAV_TARGET", "nav1");
+    </script>
+
   </head>
   <body>
     <header class="sticky top-0">
@@ -102,6 +109,6 @@
       });
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.2.1/flowbite.min.js"></script>
-    <script src="/nav.js"></script>
+    <script src="https://js-shared.vercel.app/nav.js"></script>
   </body>
 </html>
