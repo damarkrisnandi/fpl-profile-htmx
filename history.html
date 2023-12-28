@@ -196,9 +196,13 @@
         }
 
         const bestRank = Math.min(...data);
-
+        let chartStatus = Chart.getChart("myChart"); // <canvas> id
+        if (chartStatus != undefined) {
+          chartStatus.destroy();
+        }
         const ctx = document.getElementById("myChart").getContext("2d");
 
+        let chart = window["Chart"];
         const configuration = {
           type: "line",
           data: {
@@ -278,14 +282,7 @@
           },
         };
 
-        let chart = new Chart(ctx, configuration);
-
-        window.onunload = function () {
-          chart.destroy();
-        };
-        if (chart) {
-        } else {
-        }
+        chart = new Chart(ctx, configuration);
       });
       let width, height, gradient;
       function getGradient(ctx, chartArea) {
