@@ -55,8 +55,11 @@
           </template>
         </div>
       </div>
+
       <div class="mt-10">
-        <div class="flex justify-center items-center">
+        <div
+          class="flex justify-center items-center bg-gray-700 w-11/12 m-auto"
+        >
           <canvas
             id="myChart"
             class="m-auto w-full lg:w-8/12 md:w-8/12"
@@ -170,14 +173,6 @@
       `;
         }
       });
-
-      // setTimeout(() => {
-      //   while (document.getElementById(`rank${event}`)) {
-      //     console.log(event);
-      //
-      //               event++;
-      //   }
-      // }, 1000);
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -202,9 +197,9 @@
 
         const bestRank = Math.min(...data);
 
-        const ctx = document.getElementById("myChart");
+        const ctx = document.getElementById("myChart").getContext("2d");
 
-        new Chart(ctx, {
+        const configuration = {
           type: "line",
           data: {
             labels,
@@ -213,8 +208,8 @@
                 label: "my rank",
                 data,
                 borderWidth: 1,
+                color: "white",
                 borderColor: function (context) {
-                  console.log(context);
                   const chart = context.chart;
                   const { ctx, chartArea } = chart;
 
@@ -234,11 +229,28 @@
               //   label: "Best Rank",
               //   data: data.map((obj) => (obj != bestRank ? null : obj)),
               //   borderWidth: 10,
+              //   borderColor: function (context) {
+              //     const chart = context.chart;
+              //     const { ctx, chartArea } = chart;
+              //
+              //     if (!chartArea) {
+              //       // This case happens on initial chart load
+              //       return;
+              //     }
+              //     return getGradient(ctx, chartArea);
+              //   },
               // },
             ],
           },
           options: {
             tension: 0.2,
+            plugins: {
+              legend: {
+                labels: {
+                  color: "white",
+                },
+              },
+            },
             scales: {
               y: {
                 // beginAtZero: true,
@@ -246,6 +258,11 @@
                   display: false,
                 },
                 reverse: true,
+              },
+              x: {
+                ticks: {
+                  color: "white",
+                },
               },
             },
             plugins: {
@@ -259,7 +276,16 @@
               },
             },
           },
-        });
+        };
+
+        let chart = new Chart(ctx, configuration);
+
+        window.onunload = function () {
+          chart.destroy();
+        };
+        if (chart) {
+        } else {
+        }
       });
       let width, height, gradient;
       function getGradient(ctx, chartArea) {
@@ -277,13 +303,14 @@
             chartArea.top,
           );
           gradient.addColorStop(0, "red");
-          gradient.addColorStop(0.5, "orange");
+          gradient.addColorStop(0.5, "yellow");
           gradient.addColorStop(1, "green");
         }
 
         return gradient;
       }
     </script>
+    <!--js for generate nav-->
     <script src="nav.js"></script>
   </body>
 </html>
