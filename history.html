@@ -26,28 +26,35 @@
   </head>
   <body>
     <header class="sticky top-0">
-      <a
-        href="/"
-        class="px-4 py-4 flex justify-start items-center text-fuchsia-600"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 16 16"
-          fill="currentColor"
-          class="w-4 h-4 mr-2"
-        >
-          <path
-            d="M8.543 2.232a.75.75 0 0 0-1.085 0l-5.25 5.5A.75.75 0 0 0 2.75 9H4v4a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1v-1a1 1 0 1 1 2 0v1a1 1 0 0 0 1 1h1a1 1 0 0 0 1-1V9h1.25a.75.75 0 0 0 .543-1.268l-5.25-5.5Z"
-          />
-        </svg>
-        Home</a
-      >
+      <header class="sticky top-0">
+        <nav class="flex">
+          <div class="" id="nav1"></div>
+        </nav>
+      </header>
     </header>
 
     <main
       class="mt-10"
       hx-on=" htmx:configRequest: event.detail.headers=''; event.detail.headers['Content-Type']='application/x-www-form-urlencoded; charset=UTF-8'"
     >
+      <div hx-ext="client-side-templates">
+        <div
+          hx-get="https://fpl-fetch.netlify.app/api/manager/471950"
+          hx-trigger="load"
+          mustache-array-template="header"
+          hx-target="#header"
+          hx-swap="outerHTML"
+          class="flex justify-center items-center"
+        >
+          <template id="header">
+            {{#data}}
+            <h1 class="font-semibold flex">
+              {{ name }}'s Points and Rank per Gameweek
+            </h1>
+            {{/data}}
+          </template>
+        </div>
+      </div>
       <div class="mt-10">
         <div class="flex justify-center items-center">
           <canvas
@@ -277,5 +284,6 @@
         return gradient;
       }
     </script>
+    <script src="nav.js"></script>
   </body>
 </html>
