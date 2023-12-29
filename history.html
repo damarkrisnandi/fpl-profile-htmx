@@ -118,20 +118,6 @@
                 <td class="px-6 py-4 flex justify-center items-center">
                   {{ data.points }} (-{{ data.event_transfers_cost }})
 
-                  {% if data.event == current.length %}
-                  <div
-          hx-get="https://fpl-fetch.netlify.app/api/manager/471950"
-          hx-trigger="load"
-          nunjucks-template="current-templ"          hx-target="#current"
-          hx-swap="innerHTML"
-          class="flex justify-center items-center"
-        >
-          <div id="current" class="ml-1"></div>
-
-                  </div>
-      </div>
-
-                  {% endif %}
                 </td>
 
                 <td class="px-6 py-4">{{ data.total_points }}</td>
