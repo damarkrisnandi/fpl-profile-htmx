@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Leagues</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link href="css/style.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <!-- and it's easy to individually load additional languages -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/go.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
+    <script src="https://unpkg.com/mustache@latest"></script>
+    <script src="https://unpkg.com/htmx.org/dist/ext/client-side-templates.js"></script>
+    <script src="https://mozilla.github.io/nunjucks/files/nunjucks.js"></script>
+
+    <!-- <script src="https://cdn.jsdelivr.net/npm/dotenv@16.3.1/lib/main.min.js"></script> -->
+    <script>
+      // require("dotenv").config();
+      // console.log(process.env);
+      sessionStorage.setItem("REPO", "fpl-profile-htmx");
+      sessionStorage.setItem("NAV_TARGET", "nav1");
+    </script>
+  </head>
+  <body>
+    <header class="sticky top-0">
+      <header class="sticky top-0">
+        <nav class="flex">
+          <div class="" id="nav1"></div>
+        </nav>
+      </header>
+    </header>
+
+    <div
+      class="mt-10"
+      hx-on=" htmx:configRequest: event.detail.headers=''; event.detail.headers['Content-Type']='application/x-www-form-urlencoded; charset=UTF-8'"
+    >
+      <div hx-ext="client-side-templates">
+        <div
+          hx-get="https://fpl-fetch.netlify.app/api/manager/471950"
+          hx-trigger="load"
+          nunjucks-template="header-templ"
+          hx-target="#header"
+          hx-swap="innerHTML"
+          class="flex justify-center items-center"
+        >
+          <div id="header"></div>
+          <template id="header-templ">
+            <h1 class="font-semibold flex">
+              {{ name }}'s Leagues Current Rank
+            </h1>
+          </template>
+        </div>
+
+
+        <div
+          hx-get="https://fpl-fetch.netlify.app/api/manager/471950"
+          hx-trigger="load"
+          nunjucks-template="league-data-tmpl"
+        hx-target="#league-data"
+          hx-swap="innerHTML"
+          class="flex justify-center items-center"
+        >
+          
+          <table
+              class="w-11/12 md:w-6/12 text-sm text-let rtl:text-right text-gray-500 dark:text-gray-400 rounded-lg mt-5"
+            >
+
+            <thead
+                class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400"
+              >
+                <tr>
+                  <th scope="col" class="px-6 py-3">League Name</th>
+                  <th scope="col" class="px-6 py-3">Rank</th>
+               </tr>
+            </thead>
+            <tbody id="league-data"></tbody>
+            </table>
+
+
+          <template id="league-data-tmpl">
+            {% for league in leagues.classic %}
+              <tr class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700">
+                <th
+                  scope="row"
+                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  {{ league.name }}
+                </th>
+                <td class="px-6 py-4 flex justify-center items-center">
+                {{ league.entry_rank }} ({{ league.entry_last_rank - league.entry_rank }})
+                </td>
+              </tr>
+
+            {% endfor %}
+          </template>
+
+
+       </div>
+      </div>
+
+      </div>
+    </main>
+
+    <footer></footer>
+    <!--js for generate nav-->
+    <script src="https://js-shared.vercel.app/nav.js"></script>
+  </body>
+</html>

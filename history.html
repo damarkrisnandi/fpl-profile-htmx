@@ -23,6 +23,8 @@
     <script src="https://unpkg.com/htmx.org/dist/ext/json-enc.js"></script>
     <script src="https://unpkg.com/mustache@latest"></script>
     <script src="https://unpkg.com/htmx.org/dist/ext/client-side-templates.js"></script>
+    <script src="https://mozilla.github.io/nunjucks/files/nunjucks.js"></script>
+
     <!-- <script src="https://cdn.jsdelivr.net/npm/dotenv@16.3.1/lib/main.min.js"></script> -->
     <script>
       // require("dotenv").config();
@@ -40,7 +42,7 @@
       </header>
     </header>
 
-    <main
+    <div
       class="mt-10"
       hx-on=" htmx:configRequest: event.detail.headers=''; event.detail.headers['Content-Type']='application/x-www-form-urlencoded; charset=UTF-8'"
     >
@@ -48,17 +50,16 @@
         <div
           hx-get="https://fpl-fetch.netlify.app/api/manager/471950"
           hx-trigger="load"
-          mustache-array-template="header"
+          nunjucks-template="header-templ"
           hx-target="#header"
-          hx-swap="outerHTML"
+          hx-swap="innerHTML"
           class="flex justify-center items-center"
         >
-          <template id="header">
-            {{#data}}
+          <div id="header"></div>
+          <template id="header-templ">
             <h1 class="font-semibold flex">
               {{ name }}'s Points and Rank per Gameweek
             </h1>
-            {{/data}}
           </template>
         </div>
       </div>
@@ -80,8 +81,8 @@
             hx-get="https://fpl-fetch.netlify.app/api/history/471950"
             hx-trigger="load"
             hx-swap="outerHTML"
-            mustache-array-template="tabletemplate"
-            hx-target="#tabletemplate"
+            nunjucks-template="tabletemplate"
+            hx-target="#table-content"
           >
             <table
               class="w-11/12 text-sm text-let rtl:text-right text-gray-500 dark:text-gray-400 rounded-lg"
@@ -98,41 +99,66 @@
                   <th scope="col" class="px-6 py-3">Overall Rank</th>
                 </tr>
               </thead>
-              <tbody>
-                <template id="tabletemplate">
-                  {{#data.current}}
-
-                  <tr
-                    class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700"
-                    id="{{ event }}"
-                  >
-                    <th
-                      scope="row"
-                      class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                    >
-                      {{ event }}
-                    </th>
-                    <td class="px-6 py-4 flex justify-center items-center">
-                      {{ points }} (-{{event_transfers_cost}})
-                    </td>
-
-                    <td class="px-6 py-4">{{ total_points }}</td>
-                    <!-- <td class="px-6 py-4"> -->
-                    <!--   {{ event_transfers }} (-{{event_transfers_cost}}) -->
-                    <!-- </td> -->
-                    <td
-                      class="px-6 py-4 flex justify-center items-center"
-                      id="rank{{event}}"
-                    >
-                      <span id="arrow{{event}}"></span
-                      ><span id="rankval{{event}}">{{ overall_rank }}</span>
-                    </td>
-                  </tr>
-
-                  {{/data.current}}
-                </template>
-              </tbody>
+              <tbody id="table-content"></tbody>
             </table>
+
+            <template id="tabletemplate">
+              {% for data in current %}
+
+              <tr
+                class="bg-white text-center border-b dark:bg-gray-800 dark:border-gray-700"
+                id="{{ data.event }}"
+              >
+                <th
+                  scope="row"
+                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
+                  {{ data.event }}
+                </th>
+                <td class="px-6 py-4 flex justify-center items-center">
+                  {{ data.points }} (-{{ data.event_transfers_cost }})
+
+                  {% if data.event == current.length %}
+                  <div
+          hx-get="https://fpl-fetch.netlify.app/api/manager/471950"
+          hx-trigger="load"
+          nunjucks-template="current-templ"          hx-target="#current"
+          hx-swap="innerHTML"
+          class="flex justify-center items-center"
+        >
+          <div id="current" class="ml-1"></div>
+
+                  </div>
+      </div>
+
+                  {% endif %}
+                </td>
+
+                <td class="px-6 py-4">{{ data.total_points }}</td>
+                <!-- <td class="px-6 py-4"> -->
+                <!--   {{ event_transfers }} (-{{event_transfers_cost}}) -->
+                <!-- </td> -->
+                <td
+                  class="px-6 py-4 flex justify-center items-center"
+                  id="rank{{data.event}}"
+                >
+                  <span id="arrow{{data.event}}"></span
+                  ><span id="rankval{{data.event}}"
+                    >{{ data.overall_rank }}</span
+                  >
+                </td>
+              </tr>
+
+              {% endfor %}
+            </template>
+
+          <template id="current-templ">
+            <p class="flex">
+              (on progress -> {{ summary_event_points }})
+              
+            </p>
+          </template>
+
           </div>
         </div>
       </div>
