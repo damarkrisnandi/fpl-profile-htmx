@@ -111,11 +111,11 @@
               >
                 <th
                   scope="row"
-                  class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                  class="px-6 py-4 font-medium text-sm text-gray-900 whitespace-nowrap dark:text-white"
                 >
                   {{ data.event }}
                 </th>
-                <td class="px-6 py-4 flex justify-center items-center">
+                <td class="px-6 py-4 flex justify-center items-center text-sm">
                   {{ data.points }} ({{ data.event_transfers_cost * -1 }})
 
                 </td>
@@ -125,7 +125,7 @@
                 <!--   {{ event_transfers }} (-{{event_transfers_cost}}) -->
                 <!-- </td> -->
                 <td
-                  class="px-6 py-4 flex justify-center items-center"
+                  class="px-6 py-4 flex justify-center items-center text-sm"
                   id="rank{{data.event}}"
                 >
                   <span id="arrow{{data.event}}"></span
