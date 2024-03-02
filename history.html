@@ -106,26 +106,26 @@
               {% for data in current %}
 
               <tr
-                class="bg-white text-center text-sm border-b dark:bg-gray-800 dark:border-gray-700"
+                class="bg-white text-center text-xs border-b dark:bg-gray-800 dark:border-gray-700"
                 id="{{ data.event }}"
               >
                 <th
                   scope="row"
-                  class="px-6 py-4 font-medium text-sm text-gray-900 whitespace-nowrap dark:text-white"
+                  class="px-6 py-4 font-medium text-xs text-gray-900 whitespace-nowrap dark:text-white"
                 >
                   {{ data.event }}
                 </th>
-                <td class="px-6 py-4 flex justify-center items-center text-sm">
+                <td class="px-6 py-4 flex justify-center items-center text-xs">
                   {{ data.points }} ({{ data.event_transfers_cost * -1 }})
 
                 </td>
 
-                <td class="px-6 py-4">{{ data.total_points }}</td>
+                <td class="px-6 py-4 text-xs">{{ data.total_points }}</td>
                 <!-- <td class="px-6 py-4"> -->
                 <!--   {{ event_transfers }} (-{{event_transfers_cost}}) -->
                 <!-- </td> -->
                 <td
-                  class="px-6 py-4 flex justify-center items-center text-sm"
+                  class="px-6 py-4 flex justify-center items-center text-xs"
                   id="rank{{data.event}}"
                 >
                   <span id="arrow{{data.event}}"></span
